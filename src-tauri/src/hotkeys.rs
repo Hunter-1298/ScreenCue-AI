@@ -1,0 +1,27 @@
+// hotkeys.rs
+use tauri::{App, Manager};
+use tauri_plugin_global_shortcut::{Code, GlobalShortcutExt, Modifiers, Shortcut, ShortcutState};
+
+pub fn register(app: &mut App) -> std::result::Result<(), Box<dyn std::error::Error>> {
+    #[cfg(desktop)]
+    let ctrl_s_shortcut = Shortcut::new(Some(Modifiers::CONTROL), Code::KeyS);
+    app.handle().plugin(
+        tauri_plugin_global_shortcut::Builder::new()
+            .with_handler(move |_app, shortcut, event| {
+                if shortcut == &ctrl_s_shortcut && event.state() == ShortcutState::Pressed {
+                    if let Some(window) = _app.get_webview_window("main") {
+                        let visible = window.is_visible().unwrap_or(false);
+                        if visible {
+                            window.hide().unwrap();
+                        } else {
+                            window.show().unwrap();
+                            window.set_focus().unwrap();
+                        }
+                    }
+                }
+            })
+            .build(),
+    )?;
+    app.global_shortcut().register(ctrl_s_shortcut)?;
+    Ok(())
+}
