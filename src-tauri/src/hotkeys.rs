@@ -1,8 +1,9 @@
 use crate::screencapture;
+use anyhow::Result;
 use tauri::{App, Manager};
 use tauri_plugin_global_shortcut::{Code, GlobalShortcutExt, Modifiers, Shortcut, ShortcutState};
 
-pub fn register(app: &mut App) -> std::result::Result<(), Box<dyn std::error::Error>> {
+pub fn register(app: &mut App) -> Result<()> {
     #[cfg(desktop)]
     let ctrl_s_shortcut = Shortcut::new(Some(Modifiers::CONTROL), Code::KeyS);
     app.handle().plugin(
