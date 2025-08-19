@@ -17,8 +17,7 @@ function App() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      content:
-        "Hello! I have seen what you are currently working on. How can I assist?",
+      content: "Hello! I'm your AI assistant. How can I help you today?",
       role: "assistant",
       timestamp: new Date(),
     },
@@ -70,7 +69,7 @@ function App() {
   };
 
   return (
-    <div className="app">
+    <div className="h-screen w-screen overflow-hidden bg-black/30 backdrop-blur-[20px] flex flex-col">
       {/* Header */}
       <LiquidGlass
         variant="panel"
@@ -78,43 +77,47 @@ function App() {
         rippleEffect={false}
         flowOnHover={false}
         stretchOnDrag={false}
-        className="header"
+        className="p-6 border-b border-white/10"
       >
-        <div className="header-content">
-          <div className="avatar">
-            <Bot className="avatar-icon" />
+        <div className="flex items-center gap-3 bg-black/60">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-600/20 flex items-center justify-center">
+            <Bot className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="header-title">AI Assistant</h1>
-            <p className="header-subtitle">Powered by ScreenCueAI</p>
+            <h1 className="text-xl font-semibold text-white m-0">
+              AI Assistant
+            </h1>
+            <p className="text-sm text-white/70 m-0">Powered by ScreenCueAI</p>
           </div>
         </div>
       </LiquidGlass>
 
       {/* Messages Area */}
-      <div className="messages-container">
+      <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-4 h-[calc(100vh-140px)] scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/20 hover:scrollbar-thumb-white/30">
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`message ${message.role === "user" ? "message-user" : "message-assistant"}`}
+            className={`flex gap-3 ${message.role === "user" ? "justify-end" : "justify-start"}`}
           >
             {message.role === "assistant" && (
-              <div className="message-avatar assistant-avatar">
-                <Bot className="message-avatar-icon" />
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500/30 to-purple-600/30 flex items-center justify-center flex-shrink-0 mt-1">
+                <Bot className="w-4 h-4 text-white" />
               </div>
             )}
 
             <LiquidGlass
               variant="card"
               intensity="subtle"
-              className={`message-bubble ${
+              className={`max-w-[70%] pl-20 rounded-[20px] ${
                 message.role === "user"
-                  ? "message-bubble-user"
-                  : "message-bubble-assistant"
+                  ? "bg-gradient-to-br from-blue-500/20 to-purple-600/20"
+                  : "bg-white/5"
               }`}
             >
-              <p className="message-text">{message.content}</p>
-              <span className="message-time">
+              <p className="text-white text-sm leading-relaxed m-0 mb-2 pl-4">
+                {message.content}
+              </p>
+              <span className="text-xs text-white/50 block pl-4">
                 {message.timestamp.toLocaleTimeString([], {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -123,33 +126,27 @@ function App() {
             </LiquidGlass>
 
             {message.role === "user" && (
-              <div className="message-avatar user-avatar">
-                <User className="message-avatar-icon" />
+              <div className="pl-20 w-8 h-8 rounded-full bg-gradient-to-br from-green-500/30 to-blue-500/30 flex items-center justify-center flex-shrink-0 mt-1">
+                <User className="w-4 h-4 text-white pl-30" />
               </div>
             )}
           </div>
         ))}
 
         {isTyping && (
-          <div className="message message-assistant">
-            <div className="message-avatar assistant-avatar">
-              <Bot className="message-avatar-icon" />
+          <div className="flex gap-3 justify-start">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500/30 to-purple-600/30 flex items-center justify-center flex-shrink-0 mt-1">
+              <Bot className="w-4 h-4 text-white" />
             </div>
             <LiquidGlass
               variant="card"
               intensity="subtle"
-              className="message-bubble message-bubble-assistant"
+              className="bg-white/5 pl-4 rounded-[20px]"
             >
-              <div className="typing-indicator">
-                <div className="typing-dot" />
-                <div
-                  className="typing-dot"
-                  style={{ animationDelay: "0.1s" }}
-                />
-                <div
-                  className="typing-dot"
-                  style={{ animationDelay: "0.2s" }}
-                />
+              <div className="flex gap-1">
+                <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" />
+                <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce [animation-delay:0.1s]" />
+                <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce [animation-delay:0.2s]" />
               </div>
             </LiquidGlass>
           </div>
@@ -158,19 +155,19 @@ function App() {
       </div>
 
       {/* Input Area */}
-      <div className="input-area">
-        <div className="input-container">
+      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/20 to-transparent backdrop-blur-[10px] rounded-2xl overflow-hidden">
+        <div className="flex gap-3 items-end">
           <LiquidGlass
             variant="card"
             intensity="subtle"
-            className="input-wrapper"
+            className="flex-1 bg-white/5 rounded-2xl overflow-hidden"
           >
             <textarea
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Type your message..."
-              className="message-input"
+              className=" bg-transparent text-white border-none outline-none pl-4 text-sm leading-relaxed resize-none min-h-[48px] max-h-32 font-inherit placeholder:text-white/50 placeholder:opacity-70"
               rows={1}
             />
           </LiquidGlass>
@@ -179,9 +176,9 @@ function App() {
             variant="button"
             intensity="medium"
             onClick={handleSendMessage}
-            className="send-button"
+            className="bg-gradient-to-br from-blue-500/30 to-purple-600/30 p-3 rounded-[10px] min-w-[58px] h-12 cursor-pointer transition-all duration-300 flex items-center justify-center hover:from-blue-500/40 hover:to-purple-600/40"
           >
-            <Send className="send-icon" />
+            <Send className="w-16 h-8 text-white" />
           </LiquidGlass>
         </div>
       </div>
