@@ -50,7 +50,7 @@ export function LiquidGlass({
       case "button":
         return `${baseClasses} liquid-button`;
       case "card":
-        return `${baseClasses} liquid-card`;
+        return `${baseClasses} liquid-card p-6`;
       case "panel":
         return `${baseClasses} liquid-panel`;
       case "floating":

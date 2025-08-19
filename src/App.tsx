@@ -17,7 +17,8 @@ function App() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      content: "Hello! I'm your AI assistant. How can I help you today?",
+      content:
+        "Hello! I have looked at what you are working on. How can I help?",
       role: "assistant",
       timestamp: new Date(),
     },
@@ -77,9 +78,9 @@ function App() {
         rippleEffect={false}
         flowOnHover={false}
         stretchOnDrag={false}
-        className="p-6 border-b border-white/10"
+        className="p-6 border-b border-white/10 flex-shrink-0"
       >
-        <div className="flex items-center gap-3 bg-black/60">
+        <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-600/20 flex items-center justify-center">
             <Bot className="w-5 h-5 text-white" />
           </div>
@@ -93,7 +94,7 @@ function App() {
       </LiquidGlass>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-4 h-[calc(100vh-140px)] scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/20 hover:scrollbar-thumb-white/30">
+      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden p-6 flex flex-col gap-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/20 hover:scrollbar-thumb-white/30 bg-black/10 backdrop-blur-sm">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -108,16 +109,16 @@ function App() {
             <LiquidGlass
               variant="card"
               intensity="subtle"
-              className={`max-w-[70%] pl-20 rounded-[20px] ${
+              className={`max-w-[70%] px-6 py-5 rounded-[20px] ${
                 message.role === "user"
-                  ? "bg-gradient-to-br from-blue-500/20 to-purple-600/20"
-                  : "bg-white/5"
+                  ? "bg-gradient-to-br from-blue-500/40 to-purple-600/40 backdrop-blur-md"
+                  : "bg-white/10 backdrop-blur-md"
               }`}
             >
-              <p className="text-white text-sm leading-relaxed m-0 mb-2 pl-4">
+              <p className="text-white text-sm leading-loose m-0 mb-3 px-2 py-1">
                 {message.content}
               </p>
-              <span className="text-xs text-white/50 block pl-4">
+              <span className="text-xs text-white/50 block px-2">
                 {message.timestamp.toLocaleTimeString([], {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -126,8 +127,8 @@ function App() {
             </LiquidGlass>
 
             {message.role === "user" && (
-              <div className="pl-20 w-8 h-8 rounded-full bg-gradient-to-br from-green-500/30 to-blue-500/30 flex items-center justify-center flex-shrink-0 mt-1">
-                <User className="w-4 h-4 text-white pl-30" />
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500/30 to-blue-500/30 flex items-center justify-center flex-shrink-0 mt-1">
+                <User className="w-4 h-4 text-white" />
               </div>
             )}
           </div>
@@ -141,9 +142,9 @@ function App() {
             <LiquidGlass
               variant="card"
               intensity="subtle"
-              className="bg-white/5 pl-4 rounded-[20px]"
+              className="bg-white/10 backdrop-blur-md px-6 py-5 rounded-[20px]"
             >
-              <div className="flex gap-1">
+              <div className="flex gap-1 px-2 py-1">
                 <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" />
                 <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce [animation-delay:0.1s]" />
                 <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce [animation-delay:0.2s]" />
@@ -155,19 +156,19 @@ function App() {
       </div>
 
       {/* Input Area */}
-      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/20 to-transparent backdrop-blur-[10px] rounded-2xl overflow-hidden">
+      <div className="flex-shrink-0 p-6 bg-gradient-to-t from-black/60 to-black/20 backdrop-blur-[30px] border-t border-white/10">
         <div className="flex gap-3 items-end">
           <LiquidGlass
             variant="card"
             intensity="subtle"
-            className="flex-1 bg-white/5 rounded-2xl overflow-hidden"
+            className="flex-1 bg-white/5 rounded-3xl p-0"
           >
             <textarea
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Type your message..."
-              className=" bg-transparent text-white border-none outline-none pl-4 text-sm leading-relaxed resize-none min-h-[48px] max-h-32 font-inherit placeholder:text-white/50 placeholder:opacity-70"
+              className="w-full bg-transparent text-white border-none outline-none px-6 py-5 text-sm leading-relaxed resize-none min-h-[56px] max-h-32 font-inherit placeholder:text-white/50 placeholder:opacity-70"
               rows={1}
             />
           </LiquidGlass>
@@ -176,9 +177,9 @@ function App() {
             variant="button"
             intensity="medium"
             onClick={handleSendMessage}
-            className="bg-gradient-to-br from-blue-500/30 to-purple-600/30 p-3 rounded-[10px] min-w-[58px] h-12 cursor-pointer transition-all duration-300 flex items-center justify-center hover:from-blue-500/40 hover:to-purple-600/40"
+            className="bg-gradient-to-br from-blue-500/30 to-purple-600/30 p-3 rounded-[20px] min-w-[48px] h-12 cursor-pointer transition-all duration-300 flex items-center justify-center hover:from-blue-500/40 hover:to-purple-600/40"
           >
-            <Send className="w-16 h-8 text-white" />
+            <Send className="w-5 h-5 text-white" />
           </LiquidGlass>
         </div>
       </div>

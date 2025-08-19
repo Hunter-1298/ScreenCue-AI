@@ -21,8 +21,6 @@ background: transparent;
 min-height: 100vh;
 /* Updated font stack to use system fonts instead of Google Fonts */
 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
-overflow-x: hidden;
-overflow-y: hidden;
 position: fixed;
 width: 100%;
 height: 100vh;
@@ -62,6 +60,10 @@ border: 1px solid rgba(255, 255, 255, 0.1);
 backdrop-filter: blur(20px);
 background: rgba(255, 255, 255, 0.1);
 border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.liquid-card {
+padding: 1rem; /* 16px padding */
 }
 
 .liquid-strong {
